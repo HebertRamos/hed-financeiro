@@ -45,3 +45,14 @@ Mes.prototype.getRestanteAPagar = function(){
 
 	return restanteAPagar;
 };
+
+Mes.prototype.getRestanteReceita = function(){
+
+	var receitas = this.getTotalReceitas();
+	var valorPago = 0;
+	this.contas.forEach(function(conta){
+		valorPago += conta.getTotalPagamentos();
+	});
+
+	return receitas - valorPago;
+};

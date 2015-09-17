@@ -121,18 +121,98 @@ describe("Mes", function() {
     it("Deve retornar 0 quando há uma conta de 10 que foi totalmente paga.", function() {
 
 
-        var conta = jasmine.createSpyObj('Conta', [(function getRestanteAPagar(){
-          return 0;
-        })]);
+        /** Mock da conta **/
+        var conta = new Conta();
+        spyOn(conta, "getRestanteAPagar").and.returnValue(0);
         
         mes.addConta(conta);
-
 
         var restanteAPagar = 0;
 
         expect(mes.getRestanteAPagar()).toEqual(restanteAPagar);
 
     });
+
+    it("Deve retornar 5 quando há uma conta que falta 2 e uma que falta 3.", function() {
+
+
+        /** Mock da conta **/
+        var conta1 = new Conta();
+        spyOn(conta1, "getRestanteAPagar").and.returnValue(2);
+
+        var conta2 = new Conta();
+        spyOn(conta2, "getRestanteAPagar").and.returnValue(3);
+        
+        mes.addConta(conta1);
+        mes.addConta(conta2);
+
+        var restanteAPagar = 5;
+
+        expect(mes.getRestanteAPagar()).toEqual(restanteAPagar);
+
+    });
+
   });
+
+  describe("Restante da receita", function() {
+
+    it("Deve retornar 0 quando há uma receita de 20 e uma conta de 20 que foi totalmente paga.", function() {
+
+         var receita1 = new Receita();
+        receita1.valor = 20;
+
+         mes.addReceita(receita1);
+
+        /** Mock da conta **/
+        var conta = new Conta();
+        conta.valor = 20;
+        spyOn(conta, "getTotalPagamentos").and.returnValue(20);
+        
+        mes.addConta(conta);
+
+        var restanteDaReceita = 0;
+
+        expect(mes.getRestanteReceita()).toEqual(restanteDaReceita);
+
+    });
+
+    it("Deve retornar 8 quando há uma receita de 10 e uma conta de 2 que foi totalmente paga.", function() {
+         var receita1 = new Receita();
+        receita1.valor = 10;
+
+         mes.addReceita(receita1);
+
+        /** Mock da conta **/
+        var conta = new Conta();
+        conta.valor = 2;
+        spyOn(conta, "getTotalPagamentos").and.returnValue(2);
+        
+        mes.addConta(conta);
+
+        var restanteDaReceita = 8;
+
+        expect(mes.getRestanteReceita()).toEqual(restanteDaReceita);
+    });
+
+     it("Deve retornar -100 quando há uma receita de 10 e uma conta de 110 que foi totalmente paga.", function() {
+         var receita1 = new Receita();
+        receita1.valor = 10;
+
+         mes.addReceita(receita1);
+
+        /** Mock da conta **/
+        var conta = new Conta();
+        conta.valor = 110;
+        spyOn(conta, "getTotalPagamentos").and.returnValue(110);
+        
+        mes.addConta(conta);
+
+        var restanteDaReceita = -100;
+
+        expect(mes.getRestanteReceita()).toEqual(restanteDaReceita);
+    });
+
+  });  
+
 
 });  
