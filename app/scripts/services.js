@@ -47,4 +47,18 @@ angular.module('starter.services', [])
       return null;
     }
   };
+})
+
+.factory('Mes', function() {
+
+  var mes = new Mes();
+
+  var MesService = {
+    get:function(){
+      return mes;
+    }
+  };
+
+  return MesService;
+
 });

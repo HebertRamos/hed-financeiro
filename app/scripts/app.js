@@ -50,6 +50,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     }
   })
 
+  .state('tab.manter-conta', {
+    url: '/manter-conta',
+    views: {
+      'tab-dash': {
+        templateUrl: 'templates/manterConta.html',
+        controller: 'ContaCtrl'
+      }
+    }
+  })
+
   .state('tab.chats', {
       url: '/chats',
       views: {
